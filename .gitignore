@@ -99,3 +99,4 @@ ykcs11/tests/test-suite.log
 yubico-piv-tool.1.txt
 .libs/
 *.exe
+root/

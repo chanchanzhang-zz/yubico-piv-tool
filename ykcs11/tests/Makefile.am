@@ -36,9 +36,10 @@ AM_CPPFLAGS += $(OPENSSL_CFLAGS)
 
 AM_LDFLAGS = -no-install
 
-ykcs11_tests_LDADD = ../libykcs11.la $(OPENSSL_LIBS)
+sign_tool_SOURCES = sign_tool.c cJSON.c cJSON.h
+sign_tool_LDADD = ../libykcs11.la $(OPENSSL_LIBS)
 
-check_PROGRAMS = ykcs11_tests
+check_PROGRAMS = sign_tool
 TESTS = $(check_PROGRAMS)
 
 if ENABLE_COV
