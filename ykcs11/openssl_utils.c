@@ -578,7 +578,7 @@ CK_RV do_pkcs_pss(ykcs11_rsa_key_t *key, CK_BYTE_PTR in, CK_ULONG in_len,
     memcpy(out, in, in_len);
 
   // In case of raw PSS (no hash) this function will fail because OpenSSL requires an MD
-  if (RSA_padding_add_PKCS1_PSS(key, em, out, EVP_get_digestbynid(nid), -2) == 0) {
+  if (RSA_padding_add_PKCS1_PSS(key, em, out, EVP_get_digestbynid(NID_sha256), -1) == 0) {
     EVP_cleanup();
     return CKR_FUNCTION_FAILED;
   }
