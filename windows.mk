@@ -41,31 +41,8 @@ usage:
 	fi
 
 doit:
-	rm -rf tmp$(ARCH) && mkdir tmp$(ARCH) && cd tmp$(ARCH) && \
-	mkdir -p root/licenses && \
-	cp ../openssl-$(OPENSSLVERSION).tar.gz . || \
-		curl -L -O "https://www.openssl.org/source/openssl-$(OPENSSLVERSION).tar.gz" && \
-	tar xfa openssl-$(OPENSSLVERSION).tar.gz && \
-	cd openssl-$(OPENSSLVERSION) && \
-	CROSS_COMPILE="$(HOST)-" ./Configure mingw$(64) no-ssl2 no-ssl3 no-engines shared --prefix=$(PWD)/tmp$(ARCH)/root -static-libgcc && \
-	make depend all install_sw && \
-	cp LICENSE $(PWD)/tmp$(ARCH)/root/licenses/openssl.txt && \
-	rm -rf $(PWD)/tmp$(ARCH)/root/ssl/ && \
-	rm $(PWD)/tmp$(ARCH)/root/bin/openssl.exe && \
-	rm $(PWD)/tmp$(ARCH)/root/bin/c_rehash && \
-	rm -rf $(PWD)/tmp$(ARCH)/root/lib/engines/ && \
-	cd .. && \
-	cp ../$(PACKAGE)-$(VERSION).tar.gz . && \
-	tar xfa $(PACKAGE)-$(VERSION).tar.gz && \
-	cd $(PACKAGE)-$(VERSION)/ && \
-	CC=$(HOST)-gcc PKG_CONFIG_PATH=$(PWD)/tmp$(ARCH)/root/lib/pkgconfig lt_cv_deplibs_check_method=pass_all ./configure --host=$(HOST) --build=x86_64-unknown-linux-gnu --prefix=$(PWD)/tmp$(ARCH)/root LDFLAGS=-L$(PWD)/tmp$(ARCH)/root/lib CPPFLAGS=-I$(PWD)/tmp$(ARCH)/root/include && \
-	make install $(CHECK) && \
-	rm $(PWD)/tmp$(ARCH)/root/lib/*.la && \
-	rm -rf $(PWD)/tmp$(ARCH)/root/lib/pkgconfig/ && \
-	cp COPYING $(PWD)/tmp$(ARCH)/root/licenses/$(PACKAGE).txt && \
-	cd .. && \
-	cd root && \
-	zip -r ../../$(PACKAGE)-$(VERSION)-win$(ARCH).zip *
+	CC=$(HOST)-gcc PKG_CONFIG_PATH=$(PWD)/root/lib/pkgconfig lt_cv_deplibs_check_method=pass_all ./configure --host=$(HOST) --build=x86_64-unknown-linux-gnu --prefix=$(PWD)/root LDFLAGS=-L$(PWD)/root/lib CPPFLAGS=-I$(PWD)/root/include && \
+	make install $(CHECK)
 
 32bit:
 	$(MAKE) -f windows.mk doit ARCH=32 HOST=i686-w64-mingw32 CHECK=check

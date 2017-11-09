@@ -97,3 +97,5 @@ ykcs11/tests/ykcs11_tests.o
 ykcs11/tests/ykcs11_tests.trs
 ykcs11/tests/test-suite.log
 yubico-piv-tool.1.txt
+.libs/
+*.exe
